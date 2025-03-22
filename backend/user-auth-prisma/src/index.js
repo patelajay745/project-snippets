@@ -7,6 +7,9 @@ import { rateLimit } from "express-rate-limit";
 import { RedisStore } from "rate-limit-redis";
 import { createClient } from "redis";
 
+import swaggerUI from "swagger-ui-express"
+import swaggeDocument from "./swagger-output.json" with {type:"json"}
+
 //store data to redis
 const client = createClient({
   // ... (see https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
@@ -21,6 +24,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("src/public"));
+app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggeDocument))
 
 const port = process.env.PORT || 4000;
 

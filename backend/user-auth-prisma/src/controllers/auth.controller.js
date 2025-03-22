@@ -9,7 +9,9 @@ import { logger } from "../winston/winston.logger.js";
 import jwt from "jsonwebtoken";
 import { generateAccessTokenAndRefreshToken } from "../utils/jwtToken.js";
 import geoip from "geoip-lite";
-import { BASEURL } from "../config/index.js";
+import { AWS_ACCESSTOKEN, BASEURL } from "../config/index.js";
+import { uploadToS3 } from "../utils/uploadToS3.js";
+import { options } from "../utils/cookiesOption.js";
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, lName, password, email } = req.body;
@@ -130,11 +132,6 @@ export const getLogin = asyncHandler(async (req, res) => {
     },
   });
 
-  let options = {
-    httpOnly: true, // The cookie only accessible by the web server
-    secure: true,
-  };
-
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -153,28 +150,32 @@ export const getLogin = asyncHandler(async (req, res) => {
 });
 
 export const getUser = asyncHandler(async (req, res) => {
-  const { id } = req.user_id;
+  const { user_id } = req;
 
   const user = await prisma.user.findUnique({
     where: {
-      id: Number(id),
+      id: Number(user_id),
     },
   });
 
   if (!user) throw new ApiError(404, "user not found");
 
-  return res.status(200).json(
-    new ApiResponse(200, "User is fetched", {
-      profile: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        lName: user.lName,
-        isverified: user.isverified,
-        avatar: user.avatar,
-      },
-    })
-  );
+  return res
+    .status(200)
+    .cookie("accessToken", req.accessToken, options)
+    .cookie("refreshToken", req.refreshToken, options)
+    .json(
+      new ApiResponse(200, "User is fetched", {
+        profile: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          lName: user.lName,
+          isverified: user.isverified,
+          avatar: user.avatar,
+        },
+      })
+    );
 });
 
 export const logout = asyncHandler(async (req, res) => {
@@ -228,8 +229,6 @@ export const updateProfile = asyncHandler(async (req, res) => {
   if (!name && !lName)
     throw new ApiError(422, "Please provide field to update");
 
-  console.log(req.user_id);
-
   const user = await prisma.user.findUnique({
     where: {
       id: Number(req.user_id.id),
@@ -241,18 +240,22 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
   await user.save();
 
-  return res.status(200).json(
-    new ApiResponse(200, "Profile is updated", {
-      profile: {
-        id: req.user_id.id,
-        email: user.email,
-        name: user.name,
-        lName: user.lName,
-        isverified: user.isverified,
-        avatar: user.avatar,
-      },
-    })
-  );
+  return res
+    .status(200)
+    .cookie("accessToken", req.accessToken, options)
+    .cookie("refreshToken", req.refreshToken, options)
+    .json(
+      new ApiResponse(200, "Profile is updated", {
+        profile: {
+          id: req.user_id.id,
+          email: user.email,
+          name: user.name,
+          lName: user.lName,
+          isverified: user.isverified,
+          avatar: user.avatar,
+        },
+      })
+    );
 });
 
 export const forgetPassword = asyncHandler(async (req, res) => {
@@ -367,5 +370,48 @@ export const resetPassword = asyncHandler(async (req, res) => {
         200,
         "Your password has been reseted & your logged out from all devices. You can use new Paasword."
       )
+    );
+});
+
+export const updateAvtar = asyncHandler(async (req, res) => {
+  const { avatar } = req.files;
+
+  if (!avatar) throw new ApiError(422, "Please provide avatar to upload");
+
+  if (Array.isArray(avatar))
+    throw new ApiError(422, "Multiple files are not allowed");
+
+  if (!avatar.mimetype.startsWith("image"))
+    throw new ApiError(422, "only image is allowed");
+
+  const link = await uploadToS3(avatar);
+
+  const user = await prisma.user.update({
+    where: {
+      id: Number(req.user_id.id),
+    },
+    data: {
+      avatar: link,
+    },
+  });
+
+  if (!user)
+    throw new ApiError(500, "Something went wrong , while saving data");
+
+  return res
+    .status(200)
+    .cookie("accessToken", req.accessToken, options)
+    .cookie("refreshToken", req.refreshToken, options)
+    .json(
+      new ApiResponse(200, "Your avatar is uploaded ", {
+        profiel: {
+          email: user.email,
+          id: user.id,
+          name: user.name,
+          lName: user.lName,
+          isverified: user.isverified,
+          avatar: user.avatar,
+        },
+      })
     );
 });

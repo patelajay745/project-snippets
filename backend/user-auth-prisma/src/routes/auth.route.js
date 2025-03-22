@@ -7,6 +7,7 @@ import {
   refreshAccessToken,
   registerUser,
   resetPassword,
+  updateAvtar,
   updateProfile,
   verifyEmail,
   verifyPasswordResetToken,
@@ -20,6 +21,7 @@ import {
   tokenSchema,
 } from "../utils/validationSchema.js";
 import { isAuth } from "../middlewares/auth.middleware.js";
+import { fileParser } from "../utils/fileParser.js";
 
 export const authRouter = Router();
 
@@ -47,3 +49,5 @@ authRouter.post(
   validate(resetpasswordSchema),
   resetPassword
 );
+
+authRouter.patch("/update-avatar", isAuth, fileParser, updateAvtar);

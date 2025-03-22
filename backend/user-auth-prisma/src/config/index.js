@@ -13,3 +13,7 @@ export const ACCESSTOKEN_EXPIRE = process.env.ACCESSTOKEN_EXPIRE;
 export const REFRESHTOKEN = process.env.REFRESHTOKEN;
 export const REFRESHTOKEN_EXPIRE = process.env.REFRESHTOKEN_EXPIRE;
 export const REDIS_URL = process.env.REDIS_URL;
+export const AWS_ACCESSTOKEN = process.env.AWS_ACCESSTOKEN;
+export const AWS_SECRETKEY = process.env.AWS_SECRETKEY;
+export const AWS_BUCKETNAME = process.env.AWS_BUCKETNAME;
+export const AWS_BUCKETREGION = process.env.AWS_BUCKETREGION;
