@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { asyncHandler } from "../utils/asynchandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 
 export const validate = function (schema) {

@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { ApiError } from "./apiError.js";
-import { asyncHandler } from "./asynchandler.js";
+import { asyncHandler } from "./asyncHandler.js";
 import {
   AWS_ACCESSTOKEN,
   AWS_BUCKETNAME,

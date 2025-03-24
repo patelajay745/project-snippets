@@ -1,7 +1,7 @@
 import { prisma } from "../client/index.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
-import { asyncHandler } from "../utils/asynchandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import bcrypt from "bcryptjs";
 import { MailTrap } from "../utils/mail.js";
 import crypto from "crypto";

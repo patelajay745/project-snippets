@@ -1,6 +1,6 @@
 import { ACCESSTOKEN, REFRESHTOKEN } from "../config/index.js";
 import { ApiError } from "../utils/apiError.js";
-import { asyncHandler } from "../utils/asynchandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { generateAccessTokenAndRefreshToken } from "../utils/jwtToken.js";
 import { prisma } from "../client/index.js";

@@ -31,8 +31,6 @@ This appliction is built using NodeJs and postgres(as db)
 
 - Used Radis to store ratelimit data
 
-
-
 ### How To run project.
 
 1. Clone the Project `git clone https://github.com/patelajay745/project-snippets.git`
@@ -45,39 +43,35 @@ This appliction is built using NodeJs and postgres(as db)
 
 4. Create .env with following values.
 
-    ```
-    PORT
-    DATABASE_URL
+   ```
+   PORT
+   DATABASE_URL
 
-    MAILTRAP_USERNAME
-    MAILTRAP_PASSWORD
+   MAILTRAP_USERNAME
+   MAILTRAP_PASSWORD
 
-    BASEURL
+   BASEURL
 
-    ACCESSTOKEN
-    ACCESSTOKEN_EXPIRE
-    REFRESHTOKEN
-    REFRESHTOKEN_EXPIRE
+   ACCESSTOKEN
+   ACCESSTOKEN_EXPIRE
+   REFRESHTOKEN
+   REFRESHTOKEN_EXPIRE
 
-    REDIS_URL
+   REDIS_URL
 
-    AWS_ACCESSTOKEN
-    AWS_SECRETKEY
-    AWS_BUCKETNAME
-    AWS_BUCKETREGION
-    ```
+   AWS_ACCESSTOKEN
+   AWS_SECRETKEY
+   AWS_BUCKETNAME
+   AWS_BUCKETREGION
+   ```
 
 5. Run
-    ```
-    npx prisma migrate dev
-    npx prisma migrate deploy
-    npm install @prisma/client
-    npx prisma generate
-    ```
+
+   ```
+   npx prisma migrate dev
+   ```
 
 6. Start the server
-    ```
-    npm start
-    ```    
-
-
+   ```
+   npm start
+   ```

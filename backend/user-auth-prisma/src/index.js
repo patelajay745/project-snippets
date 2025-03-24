@@ -11,13 +11,13 @@ import swaggerUI from "swagger-ui-express"
 import swaggeDocument from "./swagger-output.json" with {type:"json"}
 
 //store data to redis
-const client = createClient({
-  // ... (see https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
+// const client = createClient({
+//   // ... (see https://github.com/redis/node-redis/blob/master/docs/client-configuration.md)
 
-  url: process.env.REDIS_URL,
-});
+//   url: process.env.REDIS_URL,
+// });
 
-await client.connect();
+// await client.connect();
 
 const app = express();
 app.use(cors());
@@ -35,9 +35,9 @@ const limiter = rateLimit({
   standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   // store: ... , // Redis, Memcached, etc. See below.
-  store: new RedisStore({
-    sendCommand: (...args) => client.sendCommand(args),
-  }),
+  // store: new RedisStore({
+  //   sendCommand: (...args) => client.sendCommand(args),
+  // }),
   message: new ApiError(429, "Too many request"),
 });
 app.use(limiter);

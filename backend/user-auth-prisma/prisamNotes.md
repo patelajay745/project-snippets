@@ -13,6 +13,13 @@ npm install @prisma/client
 
 ### Every time you update schema
 
+#### For Development
+
+- npm install
 - npx prisma migrate dev
+
+#### For Production
+
+- npm install
 - npx prisma migrate deploy
 - npx prisma generate
