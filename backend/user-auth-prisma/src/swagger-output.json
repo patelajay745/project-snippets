@@ -59,6 +59,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "x-refreshtoken",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -135,6 +140,11 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "x-refreshtoken",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -171,6 +181,11 @@
             "type": "string"
           },
           {
+            "name": "x-refreshtoken",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
@@ -199,6 +214,11 @@
         "parameters": [
           {
             "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "x-refreshtoken",
             "in": "header",
             "type": "string"
           }
@@ -273,6 +293,11 @@
         "parameters": [
           {
             "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "x-refreshtoken",
             "in": "header",
             "type": "string"
           }

@@ -11,6 +11,8 @@ npm install @prisma/client
 
 <!-- Every time you update schema -->
 
-npx prisma migrate dev
-npx prisma migrate deploy
-npx prisma generate
+### Every time you update schema
+
+- npx prisma migrate dev
+- npx prisma migrate deploy
+- npx prisma generate
